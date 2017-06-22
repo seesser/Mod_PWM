@@ -61,9 +61,13 @@ class Mod_PWM_Logic(KettleController):
                     ramp = ramp+int(self.RampUp)
                     self.sleep(.1)
                 self.actor_power(int(top- (top * int(self.PowDiff)/100)))
+                Rtop = x.power
                         
             self.sleep(1)
-            top = x.power
+            Ntop = x.power
+            if int(Ntop) <> int(top):
+                if int(Ntop)<> int(Rtop):
+                    top = Ntop
             self.heater_off()
 
 
@@ -93,10 +97,6 @@ class Mod_PWM(ActorBase):
             self.p.ChangeDutyCycle(int(power))
         else:
             self.p.ChangeDutyCycle(int(Mod_PWM.power))
-
-    def get_power():
-        return Mod_PWM.power
-            
     
     def set_power(self, power):
         if power is not None:
